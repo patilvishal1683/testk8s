@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-deployment
+  labels:
+    development: worker-web
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      development: worker
+  template:
+    metadata:
+      name: worker-deployment-web
+      labels:
+        development: worker
+    spec:
+      containers:
+        - name: worker-web-app
+          image: stephengrider/multi-worker
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip
+            - name: REDIS_PORT
+              value: '6379'
+
